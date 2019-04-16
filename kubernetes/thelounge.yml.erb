@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service
+spec:
+  selector:
+    app: thelounge
+  ports:
+    - port: 80
+      targetPort: 9000
+--
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+  labels:
+    app: thelounge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thelounge
+  template:
+    metadata:
+      labels:
+        app: thelounge
+    spec:
+      containers:
+        - name: thelounge
+          image: "tonylianlong/thelounge:1.0.0"
+          resources:
+            limits:
+              memory: 2048Mi
+              cpu: 750m
+          ports:
+            - containerPort: 80
+      dnsPolicy: ClusterFirst
+      dnsConfig:
+        searches:
+          - ocf.berkeley.edu
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: virtual-host-ingress
+spec:
+  rules:
+    - host: irc.dev-kubernetes.ocf.berkeley.edu
+      http:
+        paths:
+          - backend:
+              serviceName: service
+              servicePort: 80
