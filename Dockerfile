@@ -1,3 +1,3 @@
-FROM thelounge/thelounge:3.1.1
+FROM thelounge/thelounge:4.1.0
 
 COPY config.js /var/opt/thelounge/
