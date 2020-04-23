@@ -1,3 +1,6 @@
+// NOTE: This file is not actually used in production. 
+// The production file is located in the Puppet private 
+// docker share since it contains secrets.
 module.exports = {
   public: true,
   host: '0.0.0.0',
