@@ -40,6 +40,14 @@ spec:
               periodSeconds: 5
           ports:
             - containerPort: 9000
+          volumeMounts:
+            - mountPath: /var/opt/thelounge/config.js
+              name: config
+      volumes:
+        - name: config
+          hostPath:
+            path: /opt/share/kubernetes/secrets/thelounge/config.js
+            type: File
       dnsPolicy: ClusterFirst
       dnsConfig:
         searches:
